@@ -9,6 +9,8 @@ package main
 // https://www.captaincodeman.com/2015/03/05/dependency-injection-in-go-golang
 
 import (
+	"fmt"
+	"log"
 	"os"
 	"os/signal"
 	"syscall"
@@ -25,6 +27,17 @@ func format(val uint64) uint64 {
 	return val / 1024
 }
 
+func protect(g func()) {
+	defer func() {
+		log.Println("done") // Println executes normally even if there is a panic
+		if x := recover(); x != nil {
+			log.Printf("run time panic: %v", x)
+		}
+	}()
+	log.Println("start")
+	g()
+}
+
 func main() {
 	memoryProvider := new(MemoryTelemetryProvider)
 	diskUsageProvider := new(DiskUsageTelemetryProvider)
@@ -33,13 +46,16 @@ func main() {
 	providers := []ICanProvideTelemetryForNode{memoryProvider, diskUsageProvider}
 	reporter := TelemetryReporter{}.New(currentNode, providers)
 
+	fmt.Println("Starting")
+	reporter.ReportCurrentStatus()
+
 	ticker := time.NewTicker(30 * time.Second)
 	quit := make(chan struct{})
 	go func() {
 		for {
 			select {
 			case <-ticker.C:
-				reporter.ReportCurrentStatus()
+				protect(reporter.ReportCurrentStatus)
 			case <-quit:
 				ticker.Stop()
 				return

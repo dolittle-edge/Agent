@@ -45,6 +45,7 @@ func (reporter *TelemetryReporter) ReportCurrentStatus() {
 
 	body := bytes.NewBuffer(json)
 	response, _ := http.Post("https://edge.dolittle.studio/api/Telemetry", "application/json", body)
+	//response, _ := http.Post("http://localhost:5000/api/Telemetry", "application/json", body)
 	result, _ := ioutil.ReadAll(response.Body)
 
 	fmt.Println(string(result))
