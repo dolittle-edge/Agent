@@ -12,6 +12,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 )
 
 func mainloop() {
@@ -31,15 +32,20 @@ func main() {
 
 	providers := []ICanProvideTelemetryForNode{memoryProvider, diskUsageProvider}
 	reporter := TelemetryReporter{}.New(currentNode, providers)
-	reporter.ReportCurrentStatus()
 
-	/*
-		ticker := time.NewTicker(time.Second)
-		go func() {
-			for t := range ticker.C {
-				fmt.Println("Tick at", t)
+	ticker := time.NewTicker(30 * time.Second)
+	quit := make(chan struct{})
+	go func() {
+		for {
+			select {
+			case <-ticker.C:
+				reporter.ReportCurrentStatus()
+			case <-quit:
+				ticker.Stop()
+				return
 			}
-		}()
+		}
+	}()
 
-		mainloop()*/
+	mainloop()
 }
