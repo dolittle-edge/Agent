@@ -17,4 +17,3 @@ go get github.com/mitchellh/gox
 You can then run the `build.sh` file inside the `Source` folder.
 It will output the binary in the `output` folder within `Source` folder.
 The output is targetting Linux.
-
