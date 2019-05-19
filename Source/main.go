@@ -4,9 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 package main
 
-// https://stackoverflow.com/questions/10067295/how-to-start-a-go-program-as-a-daemon-in-ubuntu
-// http://www.ryanday.net/2012/09/04/the-problem-with-a-golang-daemon/
-// https://www.captaincodeman.com/2015/03/05/dependency-injection-in-go-golang
+// Daemon considerations: https://fabianlee.org/2017/05/21/golang-running-a-go-binary-as-a-systemd-service-on-ubuntu-16-04/
 
 import (
 	"fmt"
