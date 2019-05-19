@@ -1,5 +1,9 @@
 # Agent
 
+This project represents the Dolittle Edge Agent. Its job is to run at the host level and
+provide information / telemetry back to the cloud environment and also provide functionality
+for the cloud to call upon to perform actions on the edge.
+
 ## Getting started
 
 This project is built using [Go](http://golang.org/).
