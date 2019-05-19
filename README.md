@@ -4,7 +4,7 @@ This project represents the Dolittle Edge Agent. Its job is to run at the host l
 provide information / telemetry back to the cloud environment and also provide functionality
 for the cloud to call upon to perform actions on the edge.
 
-Read more in our [documentation](./Documentation/_index.md).
+Read more in our [documentation](https://dolittle.io/edge/agent).
 
 ## Getting started
 
