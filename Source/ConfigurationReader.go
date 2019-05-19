@@ -11,7 +11,7 @@ import (
 
 // ReadConfiguration reads and deserializes the configuration
 func ReadConfiguration() Node {
-	data, err := ioutil.ReadFile("node.json")
+	data, err := ioutil.ReadFile("DolittleEdgeAgent.json")
 	if err != nil {
 		panic(err)
 	}
