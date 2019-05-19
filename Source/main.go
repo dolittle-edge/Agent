@@ -39,6 +39,8 @@ func protect(g func()) {
 }
 
 func main() {
+	fmt.Println("Dolittle Edge Agent - (C) Dolittle")
+
 	memoryProvider := new(MemoryTelemetryProvider)
 	diskUsageProvider := new(DiskUsageTelemetryProvider)
 	currentNode := ReadConfiguration()
