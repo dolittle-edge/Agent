@@ -13,7 +13,7 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
-	"github.com/dolittle-edge/agent/reporting"
+	. "agent/reporting"
 )
 
 func mainloop() {

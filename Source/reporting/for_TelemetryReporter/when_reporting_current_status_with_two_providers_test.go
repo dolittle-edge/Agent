@@ -5,16 +5,17 @@
 package reporting
 
 import "testing"
-import "github.com/dolittle-edge/agent/reporting"
+import . "agent/reporting"
 
 type FakeProvider struct {
 }
 
 func (provider FakeProvider) Provide() []*TelemetrySample {
 	samples := []*TelemetrySample{}
-
+	
 	return samples
 }
+
 
 func when_reporting_current_status_with_two_providers(T *testing.T) {
 	fp := new(FakeProvider)

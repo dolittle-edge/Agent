@@ -1,4 +1,4 @@
-module github.com/dolittle-edge/agent
+module agent
 
 go 1.12
 
