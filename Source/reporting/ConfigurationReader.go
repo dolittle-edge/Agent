@@ -2,11 +2,23 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-package main
+package reporting
 
-// Node Represents a node within a location
-type Node struct {
-	LocationId string
-	NodeId     string
-	State      map[string]float32
+import (
+	"encoding/json"
+	"io/ioutil"
+)
+
+// ReadConfiguration reads and deserializes the configuration
+func ReadConfiguration() Node {
+	data, err := ioutil.ReadFile("DolittleEdgeAgent.json")
+	if err != nil {
+		panic(err)
+	}
+
+	node := Node{}
+
+	json.Unmarshal([]byte(data), &node)
+
+	return node
 }
