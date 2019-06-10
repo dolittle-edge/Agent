@@ -4,6 +4,7 @@ description: Learn about what the Dolittle Edge Agent is
 keywords: Edge
 author: einari
 weight: 2
+repository: https://github.com/dolittle-edge/Agent
 ---
 The Dolittle Edge Agent is a Daemon that gets installed on an edge node/gateway.
 Its responsibility is to bridge an edge node with its software into a cloud counterpart.
