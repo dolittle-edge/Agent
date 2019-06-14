@@ -5,8 +5,8 @@
 package reporting
 
 import (
-	"os"
-	"syscall"
+	"fmt"
+	statfs "github.com/ringtail/go-statfs"
 )
 
 // DiskUsageTelemetryProvider provides disk usage telemetry
@@ -16,19 +16,20 @@ type DiskUsageTelemetryProvider struct{}
 func (provider DiskUsageTelemetryProvider) Provide() []*TelemetrySample {
 	samples := []*TelemetrySample{}
 
-	var stat syscall.Statfs_t
-	wd, _ := os.Getwd()
-
-	syscall.Statfs(wd, &stat)
-
-	totalBytes := stat.Blocks * uint64(stat.Bsize)
-
-	bytes := stat.Bfree * uint64(stat.Bsize)
+	diskUsage, err := statfs.GetDiskInfo("/")
+	if err != nil {
+		fmt.Printf("Failed to get disk info,because of %s", err.Error())
+	}
 
 	diskUsageSample := new(TelemetrySample)
 	diskUsageSample.Type = "DiskUsage"
-	diskUsageSample.Value = 100 - ((float32(bytes) / float32(totalBytes)) * 100)
+	diskUsageSample.Value = 100-((float32(diskUsage.Capacity - diskUsage.Usage) / float32(diskUsage.Capacity))*100)
 	samples = append(samples, diskUsageSample)
+
+	fileUsageSample := new(TelemetrySample)
+	fileUsageSample.Type = "FileUsage"
+	fileUsageSample.Value = 100-((float32(diskUsage.Inodes - diskUsage.InodesUsed) / float32(diskUsage.Inodes))*100)
+	samples = append(samples, fileUsageSample)
 
 	return samples
 }

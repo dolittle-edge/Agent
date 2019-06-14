@@ -1,3 +1,7 @@
 github.com/cloudfoundry/gosigar v1.1.0 h1:V/dVCzhKOdIU3WRB5inQU20s4yIgL9Dxx/Mhi0SF8eM=
 github.com/cloudfoundry/gosigar v1.1.0/go.mod h1:3qLfc2GlfmwOx2+ZDaRGH3Y9fwQ0sQeaAleo2GV5pH0=
-
+github.com/dolittle-edge/agent v0.0.0-20190520111001-801b548bde68 h1:MbFLpujD/fS+7Ef/5Rx4qxS5b0QEnx55TbR2pfXOdFc=
+github.com/ringtail/go-statfs v0.0.0-20171212074626-38116532c370 h1:3Tpgt8CUrm2lGTM+JkOdCJKhT9QA5we33X6m4st3OD8=
+github.com/ringtail/go-statfs v0.0.0-20171212074626-38116532c370/go.mod h1:4q1KFykBHAFtmWgaWMthIYoCYM4h20PXL7KBWlwPtpk=
+golang.org/x/sys v0.0.0-20190614084037-d442b75600c5 h1:tQrtnaPeNyfkuD2UMixVD6lAa7WngkIFvtWcdzNeq80=
+golang.org/x/sys v0.0.0-20190614084037-d442b75600c5/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
