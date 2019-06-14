@@ -30,8 +30,13 @@ $ sudo chmod +x /opt/dolittle.edge/DolittleEdgeAgent
 For the edge agent to work, you'll need to configure it properly. To do this, you'll need to have the information about which
 location and which node it represents. This is found in the Dolittle Edge Studio.
 
-In the folder of the agent binary (`/opt/dolittle.edge`); create a file called `DolittleEdgeAgent.json`
-and configure it as follows:
+In the folder of the agent binary (`/opt/dolittle.edge`); create a file called `DolittleEdgeAgent.json`.
+
+```json
+$ sudo nano /opt/dolittle.edge/DolittleEdgeAgent.json
+```
+
+Then configure it as follows:
 
 ```json
 {
