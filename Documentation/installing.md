@@ -18,6 +18,13 @@ $ sudo mkdir /opt/dolittle.edge
 $ sudo wget https://github.com/dolittle-edge/Agent/releases/download/[RELEASE]/DolittleEdgeAgent -O /opt/dolittle.edge/DolittleEdgeAgent
 ```
 
+You then have to make it executable:
+
+```shell
+$ sudo chmod +x /opt/dolittle.edge/DolittleEdgeAgent
+```
+
+
 ## Configuration
 
 For the edge agent to work, you'll need to configure it properly. To do this, you'll need to have the information about which
@@ -33,6 +40,11 @@ and configure it as follows:
     "state": {}
 }
 ```
+
+{{% notice information %}}
+Location and Node identifiers are typically configured in the Edge Studio and is what the APIs
+recognize on the other side.
+{{% /notice %}}
 
 ## Installing as a Daemon
 
