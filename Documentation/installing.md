@@ -14,8 +14,8 @@ We've assumed the installation path of `/opt/dolittle.edge` on your system, this
 Pick the version you want and use that in the URL when downloading it as below:
 
 ```shell
-$ mkdir /opt/dolittle.edge
-$ wget https://github.com/dolittle-edge/Agent/releases/download/[RELEASE]/DolittleEdgeAgent -O /opt/dolittle.edge/DolittleEdgeAgent
+$ sudo mkdir /opt/dolittle.edge
+$ sudo wget https://github.com/dolittle-edge/Agent/releases/download/[RELEASE]/DolittleEdgeAgent -O /opt/dolittle.edge/DolittleEdgeAgent
 ```
 
 ## Configuration
@@ -79,7 +79,7 @@ and use it in the URL in the script below.
 
 ```shell
 $ sudo systemctl stop DolittleEdgeAgent
-$ wget https://github.com/dolittle-edge/Agent/releases/download/[RELEASE]/DolittleEdgeAgent -O /opt/dolittle.edge/DolittleEdgeAgent
+$ sudo wget https://github.com/dolittle-edge/Agent/releases/download/[RELEASE]/DolittleEdgeAgent -O /opt/dolittle.edge/DolittleEdgeAgent
 $ sudo systemctl daemon-reload
 $ sudo systemctl start DolittleEdgeAgent
 ```
