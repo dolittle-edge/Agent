@@ -72,9 +72,6 @@ May 19 09:08:52 edgeproc2 DolittleEdgeAgent[6501]: Reporting
 May 19 09:08:52 edgeproc2 DolittleEdgeAgent[6501]: {"LocationId":"[some guid]","NodeId":"[some guid]","State":{"ActualMemory":13.700333,"DiskUsage":6.8786774,"Memory":95.04978,"SwapMemory":26.052002}}
 ```
 
-
-https://fabianlee.org/2017/05/21/golang-running-a-go-binary-as-a-systemd-service-on-ubuntu-16-04/
-
 ## Upgrading
 
 When you want to upgrade the client manually, find the version in the [GitHub releases](https://github.com/dolittle-edge/Agent/releases)
