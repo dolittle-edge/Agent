@@ -53,13 +53,13 @@ $ sudo useradd dolittle -s /sbin/nologin -M
 Download the service definition into where `systemd` is expecting it:
 
 ```shell
-$ sudo wget https://raw.githubusercontent.com/dolittle-edge/Agent/master/Source/DolittleEdgeAgent.service -o /lib/systemd/system/dolittle.edge/DolittleEdgeAgent.service
+$ sudo wget https://raw.githubusercontent.com/dolittle-edge/Agent/master/Source/DolittleEdgeAgent.service -O /lib/systemd/system/DolittleEdgeAgent.service
 ```
 
 Then enable and start it:
 
 ```shell
-$ sudo systemctl enable DolittleEdgeAgent.service
+$ sudo systemctl enable DolittleEdgeAgent
 $ sudo systemctl start DolittleEdgeAgent
 ```
 
