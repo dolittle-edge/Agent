@@ -1,5 +1,5 @@
 ---
-title: Dolittle Edge Agent
+title: Agent
 description: Learn about what the Dolittle Edge Agent is
 keywords: Edge
 author: einari
