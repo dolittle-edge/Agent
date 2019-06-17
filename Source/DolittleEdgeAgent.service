@@ -10,8 +10,8 @@ Restart=on-failure
 RestartSec=10
 startLimitIntervalSec=60
 
-WorkingDirectory=/opt/dolittle.edge
-ExecStart=/opt/dolittle.edge/DolittleEdgeAgent
+WorkingDirectory=/usr/bin/dolittle.edge
+ExecStart=/usr/bin/dolittle.edge/DolittleEdgeAgent
 
 [Install]
 WantedBy=multi-user.target

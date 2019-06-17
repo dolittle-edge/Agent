@@ -8,20 +8,20 @@ weight: 4
 The Dolittle Edge Agent can be installed from the Linux binaries in our [GitHub releases](https://github.com/dolittle-edge/Agent/releases).
 
 {{% notice information %}}
-We've assumed the installation path of `/opt/dolittle.edge` on your system, this includes setting up as a Daemon.
+We've assumed the installation path of `/usr/bin/dolittle.edge` on your system, this includes setting up as a Daemon.
 {{% /notice %}}
 
 Pick the version you want and use that in the URL when downloading it as below:
 
 ```shell
-$ sudo mkdir /opt/dolittle.edge
-$ sudo wget https://github.com/dolittle-edge/Agent/releases/download/[RELEASE]/DolittleEdgeAgent -O /opt/dolittle.edge/DolittleEdgeAgent
+$ sudo mkdir /usr/bin/dolittle.edge
+$ sudo wget https://github.com/dolittle-edge/Agent/releases/download/[RELEASE]/DolittleEdgeAgent -O /usr/bin/dolittle.edge/DolittleEdgeAgent
 ```
 
 You then have to make it executable:
 
 ```shell
-$ sudo chmod +x /opt/dolittle.edge/DolittleEdgeAgent
+$ sudo chmod +x /usr/bin/dolittle.edge/DolittleEdgeAgent
 ```
 
 
@@ -30,10 +30,10 @@ $ sudo chmod +x /opt/dolittle.edge/DolittleEdgeAgent
 For the edge agent to work, you'll need to configure it properly. To do this, you'll need to have the information about which
 location and which node it represents. This is found in the Dolittle Edge Studio.
 
-In the folder of the agent binary (`/opt/dolittle.edge`); create a file called `DolittleEdgeAgent.json`.
+In the folder of the agent binary (`/usr/bin/dolittle.edge`); create a file called `DolittleEdgeAgent.json`.
 
 ```json
-$ sudo nano /opt/dolittle.edge/DolittleEdgeAgent.json
+$ sudo nano /usr/bin/dolittle.edge/DolittleEdgeAgent.json
 ```
 
 Then configure it as follows:
@@ -96,7 +96,7 @@ and use it in the URL in the script below.
 
 ```shell
 $ sudo systemctl stop DolittleEdgeAgent
-$ sudo wget https://github.com/dolittle-edge/Agent/releases/download/[RELEASE]/DolittleEdgeAgent -O /opt/dolittle.edge/DolittleEdgeAgent
+$ sudo wget https://github.com/dolittle-edge/Agent/releases/download/[RELEASE]/DolittleEdgeAgent -O /usr/bin/dolittle.edge/DolittleEdgeAgent
 $ sudo systemctl daemon-reload
 $ sudo systemctl start DolittleEdgeAgent
 ```
