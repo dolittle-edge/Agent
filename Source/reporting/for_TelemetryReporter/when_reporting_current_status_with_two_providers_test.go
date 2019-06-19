@@ -4,8 +4,12 @@
  *--------------------------------------------------------------------------------------------*/
 package reporting
 
-import "testing"
-import . "agent/reporting"
+import (
+	. "agent/reporting"
+	. "github.com/onsi/ginkgo"
+    . "github.com/onsi/gomega"
+)
+
 
 type FakeProvider struct {
 }
@@ -17,7 +21,23 @@ func (provider FakeProvider) Provide() []*TelemetrySample {
 }
 
 
-func when_reporting_current_status_with_two_providers(T *testing.T) {
-	fp := new(FakeProvider)
-	fp.Provide()
+/*
+func Test_when_reporting_current_status_with_two_providers(T *testing.T) {
 }
+*/
+
+var _ = Describe("when reporting current status with two providers", func() {
+	Context("", func() {
+
+	})
+	
+	BeforeEach(func() {
+		fp := new(FakeProvider)
+		fp.Provide()
+	
+	})
+
+	It("should do stuff", func() {
+		Expect(42).To(Equal(42));
+	})
+})

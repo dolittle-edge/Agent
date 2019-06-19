@@ -13,3 +13,8 @@ For those unfamiliar with Go as a language, there is a great [Go by example site
 If you're using Visual Studio Code, there is a [great extension for Go](https://code.visualstudio.com/docs/languages/go).
 A good way to keep the feedback loop tight is to enable the `go.buildOnSave` and the `go.testOnSave` options
 for the extension.
+
+## Tests
+
+Tests are written in a BDD - Specifications by Example - using the [Ginkgo](http://onsi.github.io/ginkgo/)
+framework.
