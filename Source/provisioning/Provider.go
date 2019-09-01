@@ -6,6 +6,7 @@ package provisioning
 
 import (
 	"agent/log"
+	"agent/provisioning/system"
 	"bytes"
 	"encoding/json"
 	"errors"
@@ -20,6 +21,7 @@ const (
 	waitWhileNotConfigured = 1 * time.Second
 	waitWhileConfigured    = 10 * time.Second
 	waitWhileNotAuthorized = 10 * time.Second
+	waitWhileInError       = 10 * time.Second
 )
 
 // Provider provides node configuration
@@ -98,10 +100,21 @@ func readRecievedConfiguration(response *http.Response) (Node, error) {
 }
 
 func getNodeConfiguration() (Node, time.Duration, error) {
-	// TODO: POST system information
+	information, err := system.ReadSystemInformation()
+	if err != nil {
+		log.Errorln("Could not get system information in BIOS:", err)
+		return Node{}, waitWhileInError, err
+	}
+
+	informationJSON, err := json.Marshal(information)
+	if err != nil {
+		log.Errorln("Error while marshalling system information:", err)
+		return Node{}, waitWhileInError, err
+	}
+	informationReader := bytes.NewReader(informationJSON)
+
 	// TODO: Close buffers
-	buf := bytes.NewBufferString("{}")
-	response, err := http.Post(provisioningEndpoint+"/Get", "application/json", buf)
+	response, err := http.Post(provisioningEndpoint+"/Get", "application/json", informationReader)
 	if err != nil {
 		log.Errorln("Error while getting configuration for node:", err)
 		return Node{}, waitWhileNotConfigured, err
