@@ -29,6 +29,7 @@ func main() {
 		disk.NewUsageTelemetryProvider(),
 		memory.NewTelemetryProvider(),
 		network.NewAddressProvider(),
+		network.NewPingProvider(),
 	}
 
 	reporter := reporting.NewTelemetryReporter(provisoner, providers)

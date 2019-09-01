@@ -8,5 +8,6 @@ require (
 	github.com/onsi/ginkgo v1.8.0
 	github.com/onsi/gomega v1.5.0
 	github.com/ringtail/go-statfs v0.0.0-20171212074626-38116532c370
+	github.com/sparrc/go-ping v0.0.0-20190613174326-4e5b6552494c
 	golang.org/x/sys v0.0.0-20190614084037-d442b75600c5 // indirect
 )
