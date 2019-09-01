@@ -4,21 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 package reporting
 
-import (
-	"encoding/json"
-	"io/ioutil"
-)
-
-// ReadConfiguration reads and deserializes the configuration
-func ReadConfiguration() Node {
-	data, err := ioutil.ReadFile("DolittleEdgeAgent.json")
-	if err != nil {
-		panic(err)
-	}
-
-	node := Node{}
-
-	json.Unmarshal([]byte(data), &node)
-
-	return node
+//NodeInfo represents a piece of information about a node for telemetry purposes
+type NodeInfo struct {
+	Type  string
+	Value string
 }

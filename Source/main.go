@@ -7,63 +7,43 @@ package main
 // Daemon considerations: https://fabianlee.org/2017/05/21/golang-running-a-go-binary-as-a-systemd-service-on-ubuntu-16-04/
 
 import (
+	"agent/log"
+	"agent/provisioning"
+	"agent/reporting"
+	"agent/reporting/providers/disk"
+	"agent/reporting/providers/memory"
 	"fmt"
-	"log"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
-	. "agent/reporting"
 )
-
-func mainloop() {
-	exitSignal := make(chan os.Signal)
-	signal.Notify(exitSignal, syscall.SIGINT, syscall.SIGTERM)
-	<-exitSignal
-}
-
-func format(val uint64) uint64 {
-	return val / 1024
-}
-
-func protect(g func()) {
-	defer func() {
-		log.Println("done") // Println executes normally even if there is a panic
-		if x := recover(); x != nil {
-			log.Printf("run time panic: %v", x)
-		}
-	}()
-	log.Println("start")
-	g()
-}
 
 func main() {
 	fmt.Println("Dolittle Edge Agent - (C) Dolittle")
 
+	provisoner := provisioning.NewProvider()
 
-	memoryProvider := new(MemoryTelemetryProvider)
-	diskUsageProvider := new(DiskUsageTelemetryProvider)
-	currentNode := ReadConfiguration()
+	providers := []reporting.ICanProvideTelemetryForNode{
+		disk.NewUsageTelemetryProvider(),
+		memory.NewTelemetryProvider(),
+	}
 
-	providers := []ICanProvideTelemetryForNode{memoryProvider, diskUsageProvider}
-	reporter := TelemetryReporter{}.New(currentNode, providers)
+	reporter := reporting.NewTelemetryReporter(provisoner, providers)
 
-	fmt.Println("Starting")
-	reporter.ReportCurrentStatus()
+	quit := make(chan os.Signal)
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+	ticker := time.NewTicker(2 * time.Second)
 
-	ticker := time.NewTicker(30 * time.Second)
-	quit := make(chan struct{})
-	go func() {
-		for {
-			select {
-			case <-ticker.C:
-				protect(reporter.ReportCurrentStatus)
-			case <-quit:
-				ticker.Stop()
-				return
-			}
+	log.Informationln("Starting the agent")
+
+	for {
+		select {
+		case <-ticker.C:
+			reporter.ReportCurrentStatus()
+		case <-quit:
+			log.Informationln("Stopping the agent")
+			os.Exit(0)
 		}
-	}()
-
-	mainloop()
+	}
 }

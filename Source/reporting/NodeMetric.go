@@ -4,9 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 package reporting
 
-// Node Represents a node within a location
-type Node struct {
-	LocationId string
-	NodeId     string
-	State      map[string]float32
+//NodeMetric represents a single sampling for telemetry purposes
+type NodeMetric struct {
+	Type  string
+	Value float32
 }

@@ -2,9 +2,17 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-package reporting
+package provisioning
 
-// ICanProvideTelemetryForNode defined a system that is capable of providing a TelemetrySample when asked
-type ICanProvideTelemetryForNode interface {
-	Provide() ([]NodeMetric, []NodeInfo)
+// Node represents an edge node within a location
+type Node struct {
+	LocationID    string
+	NodeID        string
+	Configuration map[string]interface{}
+	isValid       bool
+}
+
+// IsValid returns whether the node configuration is valid or not
+func (n Node) IsValid() bool {
+	return n.isValid
 }

@@ -4,8 +4,14 @@
  *--------------------------------------------------------------------------------------------*/
 package reporting
 
-// TelemetrySampling Represents a single sampling for telemetry purposes
-type TelemetrySample struct {
-	Type  string
-	Value float32
+import (
+	"agent/provisioning"
+)
+
+// NodeStatus represents a node within a location
+type NodeStatus struct {
+	provisioning.Node
+	Configuration interface{} `json:"Configuration,omitempty"`
+	Metrics       map[string]float32
+	Infos         map[string]string
 }
