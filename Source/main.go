@@ -12,6 +12,7 @@ import (
 	"agent/reporting"
 	"agent/reporting/providers/disk"
 	"agent/reporting/providers/memory"
+	"agent/reporting/providers/network"
 	"fmt"
 	"os"
 	"os/signal"
@@ -27,6 +28,7 @@ func main() {
 	providers := []reporting.ICanProvideTelemetryForNode{
 		disk.NewUsageTelemetryProvider(),
 		memory.NewTelemetryProvider(),
+		network.NewAddressProvider(),
 	}
 
 	reporter := reporting.NewTelemetryReporter(provisoner, providers)
