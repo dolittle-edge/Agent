@@ -36,6 +36,7 @@ func (provider *PingProvider) runPinger() {
 		log.Errorln("Could not initialize pinger:", err)
 		return
 	}
+	pinger.SetPrivileged(true)
 	pinger.Count = 5
 
 	for {
