@@ -29,10 +29,10 @@ func (provider *AddressProvider) Provide() (_ []NodeMetric, infos []NodeInfo) {
 	}
 
 	for _, iface := range interfaces {
-		basetype := fmt.Sprintf("network.interface.%d.", iface.Index)
+		basetype := fmt.Sprintf("Network.Interface.%d.", iface.Index)
 		infos = append(infos,
 			NodeInfo{
-				Type:  basetype + "name",
+				Type:  basetype + "Name",
 				Value: iface.Name,
 			},
 		)
@@ -48,7 +48,7 @@ func (provider *AddressProvider) Provide() (_ []NodeMetric, infos []NodeInfo) {
 
 			infos = append(infos,
 				NodeInfo{
-					Type:  basetype + "addresses",
+					Type:  basetype + "Addresses",
 					Value: strings.Join(addresses, ","),
 				},
 			)
