@@ -6,8 +6,8 @@ package provisioning
 
 // Node represents an edge node within a location
 type Node struct {
-	LocationID    string
-	NodeID        string
+	LocationId    string
+	NodeId        string
 	Configuration map[string]interface{}
 	isValid       bool
 }
