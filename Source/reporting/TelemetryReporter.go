@@ -7,8 +7,14 @@ package reporting
 import (
 	"agent/log"
 	"agent/provisioning"
+	"bytes"
 	"encoding/json"
-	"fmt"
+	"net/http"
+)
+
+const (
+	telemetryEndpoint = "https://edge.dolittle.studio/api/Telemetry"
+	//telemetryEndpoint = "http://localhost:5000/api/Telemetry"
 )
 
 // TelemetryReporter Represents a system that can report telemetry back to the cloud
@@ -72,14 +78,13 @@ func (reporter *TelemetryReporter) ReportCurrentStatus() {
 		return
 	}
 
-	fmt.Println(string(status))
-	/*
-
-		body := bytes.NewBuffer(json)
-		response, _ := http.Post("https://edge.dolittle.studio/api/Telemetry", "application/json", body)
-		//response, _ := http.Post("http://localhost:5000/api/Telemetry", "application/json", body)
-		result, _ := ioutil.ReadAll(response.Body)
-
-		fmt.Println(string(result))
-	*/
+	body := bytes.NewReader(status)
+	response, err := http.Post(telemetryEndpoint, "application/json", body)
+	if err != nil {
+		log.Errorln("Error sending node status:", err)
+		return
+	}
+	if response.StatusCode != http.StatusOK {
+		log.Errorln("Unexpected status code from telemetry endpoint: ", response.StatusCode)
+	}
 }

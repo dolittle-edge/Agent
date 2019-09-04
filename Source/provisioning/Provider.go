@@ -20,8 +20,8 @@ import (
 )
 
 const (
-	//provisioningEndpoint   = "https://edge.dolittle.studio/api/Provisioning"
-	provisioningEndpoint   = "http://localhost:5000/api/Provisioning"
+	provisioningEndpoint = "https://edge.dolittle.studio/api/Provisioning"
+	//provisioningEndpoint   = "http://localhost:5000/api/Provisioning"
 	waitWhileNotConfigured = 1 * time.Second
 	waitWhileConfigured    = 10 * time.Second
 	waitWhileNotAuthorized = 10 * time.Second
