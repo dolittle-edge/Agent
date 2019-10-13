@@ -9,6 +9,7 @@ import (
 	"agent/provisioning"
 	"bytes"
 	"encoding/json"
+	"math"
 	"net/http"
 )
 
@@ -21,6 +22,7 @@ const (
 type TelemetryReporter struct {
 	status    NodeStatus
 	providers []ICanProvideTelemetryForNode
+	debug     bool
 }
 
 // NewTelemetryReporter creates a new instance of the TelemetryReporter
@@ -42,6 +44,11 @@ func (reporter *TelemetryReporter) startConfigurationListener(provisioner *provi
 	provisioner.Listen(listener)
 }
 
+// SetDebug sets the debugging output flag
+func (reporter *TelemetryReporter) SetDebug(debug bool) {
+	reporter.debug = debug
+}
+
 // ReportCurrentStatus Report the current status of the current node in the current location
 func (reporter *TelemetryReporter) ReportCurrentStatus() {
 	if !reporter.status.IsValid() {
@@ -56,17 +63,29 @@ func (reporter *TelemetryReporter) ReportCurrentStatus() {
 	}()
 
 	log.Informationln("Gathering current status of node")
-	reporter.status.Metrics = make(map[string]float32)
+	reporter.status.Metrics = make(map[string]float64)
 	reporter.status.Infos = make(map[string]string)
 
 	for _, provider := range reporter.providers {
 		metrics, infos := provider.Provide()
 
 		for _, metric := range metrics {
-			reporter.status.Metrics[metric.Type] = metric.Value
+			if !math.IsNaN(metric.Value) && !math.IsInf(metric.Value, 0) {
+				reporter.status.Metrics[metric.Type] = metric.Value
+			}
 		}
 		for _, info := range infos {
 			reporter.status.Infos[info.Type] = info.Value
+		}
+	}
+
+	if reporter.debug {
+		log.Debugln("Gathered telemetry from providers")
+		for metric, value := range reporter.status.Metrics {
+			log.Debugf("Metric %s: %v\n", metric, value)
+		}
+		for info, value := range reporter.status.Infos {
+			log.Debugf("Info %s: %s\n", info, value)
 		}
 	}
 

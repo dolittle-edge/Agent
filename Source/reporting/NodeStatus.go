@@ -12,6 +12,6 @@ import (
 type NodeStatus struct {
 	provisioning.Node
 	Configuration interface{} `json:"Configuration,omitempty"`
-	Metrics       map[string]float32
+	Metrics       map[string]float64
 	Infos         map[string]string
 }

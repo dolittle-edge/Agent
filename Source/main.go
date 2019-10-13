@@ -13,6 +13,7 @@ import (
 	"agent/reporting/providers/disk"
 	"agent/reporting/providers/memory"
 	"agent/reporting/providers/network"
+	"flag"
 	"fmt"
 	"os"
 	"os/signal"
@@ -23,7 +24,18 @@ import (
 func main() {
 	fmt.Println("Dolittle Edge Agent - (C) Dolittle")
 
+	debug := flag.Bool("debug", false, "Enable debug output")
+	help := flag.Bool("help", false, "Prints this message")
+
+	flag.Parse()
+
+	if *help {
+		flag.Usage()
+		os.Exit(0)
+	}
+
 	provisoner := provisioning.NewProvider()
+	provisoner.SetDebug(*debug)
 
 	providers := []reporting.ICanProvideTelemetryForNode{
 		disk.NewUsageTelemetryProvider(),
@@ -32,7 +44,12 @@ func main() {
 		network.NewPingProvider(),
 	}
 
+	for _, provider := range providers {
+		provider.SetDebug(*debug)
+	}
+
 	reporter := reporting.NewTelemetryReporter(provisoner, providers)
+	reporter.SetDebug(*debug)
 
 	quit := make(chan os.Signal)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)

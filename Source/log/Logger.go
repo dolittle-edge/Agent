@@ -9,6 +9,18 @@ import (
 	original "log"
 )
 
+// Debugln prints a debug message using the standard logger.
+// Arguments are handled in the manner of fmt.Println.
+func Debugln(v ...interface{}) {
+	original.Println(append([]interface{}{"[DBG]"}, v...)...)
+}
+
+// Debugf prints a debug message using the standard logger.
+// Arguments are handled in the manner of fmt.Printf.
+func Debugf(format string, v ...interface{}) {
+	original.Printf("[DBG] "+format, v...)
+}
+
 // Informationln prints an information message using the standard logger.
 // Arguments are handled in the manner of fmt.Println.
 func Informationln(v ...interface{}) {

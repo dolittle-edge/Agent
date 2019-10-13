@@ -7,5 +7,5 @@ package reporting
 //NodeMetric represents a single sampling for telemetry purposes
 type NodeMetric struct {
 	Type  string
-	Value float32
+	Value float64
 }

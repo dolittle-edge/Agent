@@ -13,11 +13,18 @@ import (
 )
 
 // AddressProvider provides information about the nodes current IP addresses
-type AddressProvider struct{}
+type AddressProvider struct {
+	debug bool
+}
 
 // NewAddressProvider creates a new instance of AddressProvider
 func NewAddressProvider() *AddressProvider {
 	return new(AddressProvider)
+}
+
+// SetDebug sets the debugging output flag
+func (provider *AddressProvider) SetDebug(debug bool) {
+	provider.debug = debug
 }
 
 // Provide the memory telemetry
@@ -37,6 +44,10 @@ func (provider *AddressProvider) Provide() (_ []NodeMetric, infos []NodeInfo) {
 			},
 		)
 
+		if provider.debug {
+			log.Debugf("Found network interface %s\n", iface.Name)
+		}
+
 		addrs, err := iface.Addrs()
 		if err != nil {
 			log.Warningf("Error retrieving addresses for network interface %s: %v", iface.Name, err)
@@ -44,6 +55,10 @@ func (provider *AddressProvider) Provide() (_ []NodeMetric, infos []NodeInfo) {
 			addresses := []string{}
 			for _, addr := range addrs {
 				addresses = append(addresses, addr.String())
+
+				if provider.debug {
+					log.Debugf("Found address %s for interface %s\n", addr.String(), iface.Name)
+				}
 			}
 
 			infos = append(infos,

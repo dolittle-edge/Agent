@@ -7,4 +7,5 @@ package reporting
 // ICanProvideTelemetryForNode defined a system that is capable of providing a TelemetrySample when asked
 type ICanProvideTelemetryForNode interface {
 	Provide() ([]NodeMetric, []NodeInfo)
+	SetDebug(bool)
 }

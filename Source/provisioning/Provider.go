@@ -32,6 +32,7 @@ const (
 type Provider struct {
 	Current   Node
 	listeners []chan<- Node
+	debug     bool
 }
 
 // NewProvider instanciates a new Provider
@@ -48,6 +49,11 @@ func NewProvider() *Provider {
 func (p *Provider) Listen(listener chan<- Node) {
 	listener <- p.Current
 	p.listeners = append(p.listeners, listener)
+}
+
+// SetDebug sets the debugging output flag
+func (p *Provider) SetDebug(debug bool) {
+	p.debug = debug
 }
 
 func (p *Provider) notifyListeners(node Node) {

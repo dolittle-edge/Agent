@@ -21,6 +21,7 @@ const (
 type PingProvider struct {
 	statistics ping.Statistics
 	isRunning  bool
+	debug      bool
 }
 
 // NewPingProvider creates a new instance of PingProvider
@@ -43,8 +44,18 @@ func (provider *PingProvider) runPinger() {
 		pinger.Run()
 		provider.statistics = *pinger.Statistics()
 		provider.isRunning = true
+
+		if provider.debug {
+			log.Debugf("Measured ping ip:%v rtts:%v\n", provider.statistics.IPAddr, provider.statistics.Rtts)
+		}
+
 		time.Sleep(pingPause)
 	}
+}
+
+// SetDebug sets the debugging output flag
+func (provider *PingProvider) SetDebug(debug bool) {
+	provider.debug = debug
 }
 
 // Provide the memory telemetry
@@ -53,11 +64,11 @@ func (provider *PingProvider) Provide() (metrics []NodeMetric, _ []NodeInfo) {
 		metrics = append(metrics,
 			NodeMetric{
 				Type:  "Network.Ping.Average",
-				Value: float32(provider.statistics.AvgRtt / time.Millisecond),
+				Value: float64(provider.statistics.AvgRtt / time.Millisecond),
 			},
 			NodeMetric{
 				Type:  "Network.Ping.StdDev",
-				Value: float32(provider.statistics.StdDevRtt / time.Millisecond),
+				Value: float64(provider.statistics.StdDevRtt / time.Millisecond),
 			},
 		)
 	}
