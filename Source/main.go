@@ -11,6 +11,7 @@ import (
 	"agent/configuring/configurers/location"
 	"agent/log"
 	"agent/provisioning"
+	"agent/provisioning/system"
 	"agent/reporting"
 	"agent/reporting/providers/disk"
 	"agent/reporting/providers/memory"
@@ -27,12 +28,26 @@ func main() {
 	fmt.Println("Dolittle Edge Agent - (C) Dolittle")
 
 	debug := flag.Bool("debug", false, "Enable debug output")
+	info := flag.Bool("system-information", false, "Prints the system information of this node")
 	help := flag.Bool("help", false, "Prints this message")
 
 	flag.Parse()
 
 	if *help {
 		flag.Usage()
+		os.Exit(0)
+	}
+
+	if *info {
+		information, err := system.ReadSystemInformation()
+		if err != nil {
+			fmt.Println("Could not read system information:", err)
+		} else {
+			fmt.Println()
+			fmt.Println("System information")
+			fmt.Println()
+			information.Print(os.Stdout)
+		}
 		os.Exit(0)
 	}
 
