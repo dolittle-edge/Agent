@@ -11,8 +11,9 @@ Type=exec
 Restart=on-failure
 RestartSec=10
 
+ConfigurationDirectory=dolittle-edge/agent
+WorkingDirectory=/etc/dolittle-edge/agent
 ExecStart=/usr/bin/dolittle-edge-agent
-WorkingDirectory=-/etc/dolittle-edge
 
 [Install]
 WantedBy=multi-user.target
