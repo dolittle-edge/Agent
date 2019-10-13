@@ -47,6 +47,10 @@ func (reporter *TelemetryReporter) startConfigurationListener(provisioner *provi
 // SetDebug sets the debugging output flag
 func (reporter *TelemetryReporter) SetDebug(debug bool) {
 	reporter.debug = debug
+
+	for _, provider := range reporter.providers {
+		provider.SetDebug(debug)
+	}
 }
 
 // ReportCurrentStatus Report the current status of the current node in the current location

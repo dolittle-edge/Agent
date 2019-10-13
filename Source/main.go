@@ -7,6 +7,7 @@ package main
 // Daemon considerations: https://fabianlee.org/2017/05/21/golang-running-a-go-binary-as-a-systemd-service-on-ubuntu-16-04/
 
 import (
+	"agent/configuring"
 	"agent/log"
 	"agent/provisioning"
 	"agent/reporting"
@@ -37,15 +38,20 @@ func main() {
 	provisoner := provisioning.NewProvider()
 	provisoner.SetDebug(*debug)
 
+	configurers := []configuring.ICanConfigureNode{}
+
+	configurator, err := configuring.NewConfigurator(provisoner, configurers)
+	if err != nil {
+		log.Errorln("Could not initialize configurator", err)
+		os.Exit(1)
+	}
+	configurator.SetDebug(*debug)
+
 	providers := []reporting.ICanProvideTelemetryForNode{
 		disk.NewUsageTelemetryProvider(),
 		memory.NewTelemetryProvider(),
 		network.NewAddressProvider(),
 		network.NewPingProvider(),
-	}
-
-	for _, provider := range providers {
-		provider.SetDebug(*debug)
 	}
 
 	reporter := reporting.NewTelemetryReporter(provisoner, providers)
