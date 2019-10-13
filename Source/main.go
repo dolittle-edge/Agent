@@ -8,6 +8,7 @@ package main
 
 import (
 	"agent/configuring"
+	"agent/configuring/configurers/location"
 	"agent/log"
 	"agent/provisioning"
 	"agent/reporting"
@@ -38,7 +39,9 @@ func main() {
 	provisoner := provisioning.NewProvider()
 	provisoner.SetDebug(*debug)
 
-	configurers := []configuring.ICanConfigureNode{}
+	configurers := []configuring.ICanConfigureNode{
+		location.NewConfigurer(),
+	}
 
 	configurator, err := configuring.NewConfigurator(provisoner, configurers)
 	if err != nil {
@@ -62,6 +65,7 @@ func main() {
 	ticker := time.NewTicker(2 * time.Second)
 
 	log.Informationln("Starting the agent")
+	provisoner.Start()
 
 	for {
 		select {

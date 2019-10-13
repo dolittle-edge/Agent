@@ -38,10 +38,7 @@ type Provider struct {
 // NewProvider instanciates a new Provider
 func NewProvider() *Provider {
 	p := new(Provider)
-
 	p.Current.isValid = false
-	go p.runProvider()
-
 	return p
 }
 
@@ -56,11 +53,14 @@ func (p *Provider) SetDebug(debug bool) {
 	p.debug = debug
 }
 
+// Start starts the provisioning process
+func (p *Provider) Start() {
+	go p.runProvider()
+}
+
 func (p *Provider) notifyListeners(node Node) {
 	for _, l := range p.listeners {
-		select {
-		case l <- node:
-		}
+		l <- node
 	}
 }
 
@@ -73,7 +73,7 @@ func (p *Provider) runProvider() {
 
 	for {
 		if !p.Current.IsValid() {
-			node, wait, err := getNodeConfiguration()
+			node, wait, err := getNodeConfiguration(p.debug)
 			if err == nil {
 				log.Informationln("Recieved new node configuration")
 				persistConfiguration(node)
@@ -147,11 +147,14 @@ func readRecievedConfiguration(response *http.Response) (Node, error) {
 	return decodeConfiguration(data)
 }
 
-func getNodeConfiguration() (Node, time.Duration, error) {
+func getNodeConfiguration(debug bool) (Node, time.Duration, error) {
 	information, err := system.ReadSystemInformation()
 	if err != nil {
 		log.Errorln("Could not get system information in BIOS:", err)
 		return Node{}, waitWhileInError, err
+	}
+	if debug {
+		log.Debugln("Read system information", information)
 	}
 
 	informationJSON, err := json.Marshal(information)

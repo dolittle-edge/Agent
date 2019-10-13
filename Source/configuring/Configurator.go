@@ -10,6 +10,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"strings"
 )
 
 // Configurator represents a system that coordinates node configurers
@@ -33,6 +34,7 @@ func NewConfigurator(provisioner *provisioning.Provider, configurers []ICanConfi
 	}
 
 	configurator.startConfigurationListener(provisioner)
+
 	return configurator, nil
 }
 
@@ -48,16 +50,22 @@ func (configurator *Configurator) SetDebug(debug bool) {
 func (configurator *Configurator) startConfigurationListener(provisioner *provisioning.Provider) {
 	listener := make(chan provisioning.Node)
 	go func() {
+		firstConfiguration := true
 		for {
 			node := <-listener
-			configurator.runConfigurers(node.Configuration)
-			configurator.configuration = node.Configuration
+			newConfiguration := make(map[string]interface{})
+			for name, configuration := range node.Configuration {
+				newConfiguration[strings.ToLower(name)] = configuration
+			}
+			configurator.runConfigurers(newConfiguration, firstConfiguration)
+			configurator.configuration = newConfiguration
+			firstConfiguration = false
 		}
 	}()
 	provisioner.Listen(listener)
 }
 
-func (configurator *Configurator) runConfigurers(newConfiguration map[string]interface{}) {
+func (configurator *Configurator) runConfigurers(newConfiguration map[string]interface{}, force bool) {
 	for name := range configurator.configuration {
 		if _, exists := newConfiguration[name]; !exists {
 			log.Informationf("Configuration for type %s was removed\n", name)
@@ -74,7 +82,7 @@ func (configurator *Configurator) runConfigurers(newConfiguration map[string]int
 		if err != nil {
 			log.Errorf("Could not marshal new configuration for type %s: %v\n", name, configuration)
 		}
-		if !bytes.Equal(oldConfig, newConfig) {
+		if force || !bytes.Equal(oldConfig, newConfig) {
 			log.Informationf("Configuration for type %s changed\n", name)
 			configurator.runConfigurer(name, configuration, true)
 		}
